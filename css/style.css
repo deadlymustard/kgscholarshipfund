@@ -1,0 +1,81 @@
+p, li {
+	font-size: 16px;
+}
+
+form {
+	padding: 15px;
+}
+
+nav {
+	font-family: 'Lobster', cursive;
+	border-width: 1px;
+    border-radius: 8px;
+
+}
+
+
+.navbar-brand {
+  padding: 0px;
+}
+.navbar-brand>img {
+  height: 300px;
+  padding: 15px;
+  width: 300px;
+}
+
+
+.nav li {
+	border-top-left-radius:30px;
+border-bottom-left-radius:30px;   
+}
+
+.rule-page {
+	max-height: 300px;
+	overflow-y: scroll;
+	border-style: groove;
+	margin: 15px;
+	padding: 15px;
+}
+
+.submission {
+	padding: 15px;
+}
+
+.totals {
+	padding: 15px;
+}
+
+.paypal {
+	padding: 15px;
+}
+
+.row h1,h2,h3 {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.row-margin {
+	padding-top:10px;
+}
+
+.entry:not(:first-of-type)
+{
+    margin-top: 10px;
+}
+
+.entry:last-of-type
+{
+    margin-bottom: 10px;
+}
+
+
+.glyphicon
+{
+    font-size: 12px;
+}
+
+.registration-header {
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
