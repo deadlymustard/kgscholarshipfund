@@ -1,0 +1,150 @@
+<div class="container container-body">
+	<div class="registration-header">
+		<div class="row">
+			<h2>Competitive Team Tournament Registration</h2>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+			<p>
+			This is the registration page for the Competitive Team Tournament. This is a ranked play-to-win tournament. You can view the game rules and regulations <a href="">here</a>. If you're looking for the Friendly Team Tournament registration you can find that <a href="">here</a> instead. 
+			</p>
+			</div>
+		</div>
+	</div>
+
+	<form id="player_form">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-4 col-xs-12">
+						<label for="teamName">Team Name</label>
+						<input ng-model="team_name" type="text" class="form-control" id="teamName" aria-describedby="emailHelp" placeholder="e.g. Thundercats">
+						<small id="teamNameHelp" class="form-text text-muted">Enter your super cool team's name!</small>
+				</div>
+			</div>
+			<div class="row row-margin">
+				<div class="col-md-4 col-xs-12">
+					<label for="email">Contact Email</label>
+					<input ng-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="e.g. email@example.com">
+					<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				</div>
+			</div>
+			<div class="row row-margin">
+				<div class="col-md-4 col-xs-12">
+					<label for="phone">Phone Number</label>
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1">#</span>
+					  	<input ng-model="phone" type="text" class="form-control" id="phone" placeholder="e.g. (555)-555-5555">
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="form-group" id="fields">
+			
+            	<label class="control-label" for="field1">Team Members</label>
+            <div class="row">
+	            <div class="col-md-4 col-xs-4">
+					<small class="form-text text-muted">Name</small>
+				</div>
+				<div class="col-md-3 col-xs-3">	
+					<small class="form-text text-muted">Jersey #</small>
+				</div>
+				<div class="col-md-3 col-xs-3">
+					<small class="form-text text-muted">Shirt Size</small>
+				</div>
+            </div>
+
+            <div class="controls"> 
+               <div ng-repeat="member in members" class="entry">
+               		<div class="row">
+               			<div class-col-md-4>
+               			</div>
+						<div class="col-md-4 col-xs-4">				
+							<input ng-model="member.name" type="text" name="name" class="form-control" id="member1" placeholder="e.g. John/Jane Smith">
+						</div>
+						<div class="col-md-3 col-xs-3">
+							<div class="input-group">
+							  <input ng-model="member.number" type="text" class="form-control" placeholder="e.g. 12" aria-describedby="basic-addon1">
+							</div>
+						</div>
+						<div class="col-md-3 col-xs-3">
+							<select ng-model="member.shirt_size" class="form-control" id="sel1" >
+								<option> </option>
+								<option>S</option>
+								<option>M</option>
+								<option>L</option>
+								<option>XL</option>
+								<option>XXL</option>
+							</select>
+						</div>
+                	</div>
+              	</div>   	
+            </div>
+        </div>
+        <div class="row">
+       		<div class="col-md-2 col-xs-2">
+       			<button ng-click="addNewMember()" class="btn btn-success btn-add" type="button">
+                	<span class="glyphicon glyphicon-plus"> Add</span>
+               	</button>
+       		</div>
+       		<div class="col-md-2 col-xs-2">
+       			<button ng-click="removeMember()" class="btn btn-danger btn-minus" type="button">
+                	<span class="glyphicon glyphicon-minus"> Remove</span>
+               	</button>
+       		</div>
+   		</div>
+   		<div class="row">
+   			<div class="col-md-12 col-xs-12">
+   				<button ng-disabled="isDisabled" ng-click="submitTeam()" type="submit" class="btn btn-submit btn-primary">Submit</button>
+   			</div>
+   		</div>
+        	
+
+	</form>
+
+	<div class="totals">
+		<div class="row">
+			<div class="col-md-3 col-xs-7">
+				<span>Team Fee</span><br>
+				<span>Additional Member ($25) x</span><span id="members">{{ memberCount }}</span><br>
+			</div>
+			<div class="col-md-3 col-xs-5">
+				<span>$100</span><br>
+				<span id="memberTotal">{{ memberTotal }}</span><br>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-xs-12">
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-3 col-xs-7">
+				<span>Total</span><br>
+			</div>
+			<div class="col-md-3 col-xs-5">
+				<span id="total">{{ finalTotal }}</span><br>
+			</div>
+		</div>
+	</div>
+
+	<div class="submission">
+	</div>
+	
+	<div class="paypal">
+		<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+		<div id="paypal-button-container"></div>
+
+		<div id="confirm" class="hidden">
+		    <div>Ship to:</div>
+		    <div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
+		    <div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div>
+
+		    <button id="confirmButton">Complete Payment</button>
+		</div>
+
+		<div id="thanks" class="hidden">
+		    Thanks, <span id="thanksname"></span>!
+		</div>
+	</div>

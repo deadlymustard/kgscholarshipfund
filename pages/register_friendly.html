@@ -1,0 +1,90 @@
+<div class="container container-body">
+	<div class="registration-header">
+			<div class="row">
+				<h2>Friendly Team Tournament Registration</h2>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>
+					This is the registration page for the Friendly Team Tournament This is an unranked play-for-fun tournament. You can view the game rules and regulations <a href="">here</a>. If you're looking for the Competitive Team Tournament registration you can find that <a href="">here</a> instead. 
+					</p>
+				</div>
+			</div>
+	</div>
+
+	<form>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-4 col-xs-12">
+						<label for="teamName">Team Name</label>
+						<input type="text" class="form-control" id="teamName" aria-describedby="emailHelp" placeholder="e.g. Thundercats">
+						<small id="teamNameHelp" class="form-text text-muted">Enter your super cool team's name!</small>
+				</div>
+			</div>
+			<div class="row row-margin">
+				<div class="col-md-4 col-xs-12">
+					<label for="email">Contact Email</label>
+					<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="e.g. email@example.com">
+					<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				</div>
+			</div>
+			<div class="row row-margin">
+				<div class="col-md-4 col-xs-12">
+					<label for="phone">Phone Number</label>
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon1">#</span>
+					  	<input type="text" class="form-control" id="phone" placeholder="e.g. (555)-555-5555">
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="form-group" id="fields">
+			
+            	<label class="control-label" for="field1">Team Members</label>
+            <div class="row">
+	            <div class="col-md-4 col-xs-4">
+					<small class="form-text text-muted">Name</small>
+				</div>
+				<div class="col-md-3 col-xs-3">	
+					<small class="form-text text-muted">Jersey Number</small>
+				</div>
+				<div class="col-md-3 col-xs-3">
+					<small class="form-text text-muted">Shirt Size</small>
+				</div>
+            </div>
+
+            <div class="controls"> 
+                   <div class="entry">
+                   		<div class="row">
+                   			<div class-col-md-4>
+                   			</div>
+							<div class="col-md-4 col-xs-4">				
+								<input type="text" class="form-control" id="member1" placeholder="e.g. John/Jane Smith">
+							</div>
+							<div class="col-md-3 col-xs-3">
+								<div class="input-group">
+								  <input type="text" class="form-control" placeholder="e.g. 12" aria-describedby="basic-addon1">
+								</div>
+							</div>
+							<div class="col-md-3 col-xs-3">
+								<select class="form-control" id="sel1" >
+									<option> </option>
+									<option>S</option>
+									<option>M</option>
+									<option>L</option>
+									<option>XL</option>
+								</select>
+							</div>
+							<div class="col-md-2 col-xs-2">				
+								<button class="btn btn-success btn-add" type="button">
+                                	<span class="glyphicon glyphicon-plus"></span>
+                            	</button>
+							</div>
+                            
+                    	</div>
+                   </div>
+            </div>
+        </div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
