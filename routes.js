@@ -19,7 +19,8 @@ var teamSchema = mongoose.Schema({
     email: String,
     phone: String,
     members: [],
-    price: String
+    price: String,
+    paid: false
 });
 
 teamSchema.static('findByHash', function (hash, callback) {
@@ -61,7 +62,7 @@ exports.register = function(req, res) {
 
     var new_team = new Team({hash: hash_id, name: req.body.name, email: req.body.email,
                             phone: req.body.phone, members: req.body.members, price: req.body.price,
-                            price: false});
+                            paid: false});
 
     new_team.save(function (err, new_team) {
       if (err) return console.error(err);
@@ -103,14 +104,16 @@ exports.register = function(req, res) {
 }
 
 exports.register_team = function(req, res) {
-  var grabTeam = mongoose.model('Team', teamSchema);
+	console.log('hi!');
+  	var grabTeam = mongoose.model('Team', teamSchema);
 
-        console.log(req.params.team_id);
+  	console.log(req.params);
+    console.log(req.params.team_id);
 
-        grabTeam.findByHash(req.params.team_id, function(err, teams) {
-            console.log(teams);
-            res.send(teams[0]);
-    	});
+    grabTeam.findByHash(req.params.team_id, function(err, teams) {
+        console.log(teams);
+        res.send(teams[0]);
+	});
 };
 
 exports.create = function(req, res){
