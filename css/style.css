@@ -6,13 +6,19 @@ form {
 	padding: 15px;
 }
 
-.container-body { 
-    padding-top: 100px;
+.content {
+	padding-top: 50px;
+}
+
+.content-row {
+	padding-top: 40px;
 }
 
 nav {
 	font-family: 'Lobster', cursive;
 }
+
+
 
 .navbar {
 	padding: 0px;
@@ -45,6 +51,7 @@ nav {
 
 .navbar {
 	border: none;
+	margin-bottom: 0;
 }
 
 .navbar-left {
@@ -56,10 +63,56 @@ nav {
 	margin-right: 0px;
 }
 
+ul.share-buttons{
+  list-style: none;
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+}
+
+ul.share-buttons .sr-only {
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+
+ul.share-buttons img{
+  width: 32px;
+}
+
 .navbar-collapse {
 	padding: 0px;
 }
 
+#footer-logo {
+	width: 66px;
+	height: 66px;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-image: url("../img/KG_WiffleBall_Logo_FINAL.png");
+}
+
+.footer-text {
+	font-size: 10px;
+	margin-top:22px;
+}
+
+.social-text {
+	font-size: 10px;
+	margin-top:11px;
+}
+
+.share {
+	text-align: left;
+}
 
 .logo {
 	position: absolute;
@@ -75,6 +128,7 @@ nav {
 .navbar>.container-fluid .logo {
     margin-left: -175px;
     margin-top: -265px;
+
 }
 
 * {
@@ -82,7 +136,15 @@ nav {
      -moz-border-radius: 0 !important;
           border-radius: 0 !important;
 
+          font-family: 'Roboto', sans-serif;
+
 }
+
+.body-wrapper {
+
+}
+
+
 
 .container {
 padding: 0px;
@@ -96,10 +158,50 @@ padding: 0px;
 	padding: 0px;
 }
 
-.container-body {
-	width: 60%;
+.img-rounded {
+	 border-radius: 50%;
 }
 
+.container-body {
+	height:100vh;
+	padding-left: 90px;
+	padding-right: 90px;
+	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+
+	padding-top: 15px;
+	background-color: white;
+}
+
+.container-body p {
+	font-size: 21px;
+
+	font-family: "freight-text-pro";
+	font-weight: 500;
+}
+
+.footer
+{
+    height: 100px;
+    background-color: black;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
+
+.footer-body {
+	padding-left: 90px;
+	padding-right: 90px;
+	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    box-shadow: 0 0 15px rgba(0,0,0,0.25);
+    color: white;
+
+	padding-top: 15px;
+	background-color: black;
+}
 
 
 
@@ -124,10 +226,7 @@ padding: 0px;
 	padding: 15px;
 }
 
-.row h1,h2,h3 {
-	padding-left: 15px;
-	padding-right: 15px;
-}
+
 
 .row-margin {
 	padding-top:10px;
@@ -151,6 +250,6 @@ padding: 0px;
 
 .registration-header {
 	padding: 10px;
-	margin-bottom: 20px;
+	margin-bottom: 0px;
 }
 
