@@ -1,34 +1,15 @@
 <!DOCTYPE html>
-<html ng-app="wiffle">
+<html>
 	<head>
 		<title>Kevin Gilbert Scholarship Fund</title>
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/style.css">
 		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-
-
-
-
-		<!-- SPELLS -->
-		<!-- load angular via CDN -->
-		<script src="node_modules/angular/angular.js"></script>
-		<script src="node_modules/angular-route/angular-route.js"></script>
-		<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
-
-
-
-
-		<script src="script.js"></script>
-
-
-		
+		<script src="js/formControl.js"></script>
 	</head>
-	<body ng-controller="mainController">
+	<body>
 		<div class="container-fluid splash-image">
 		</div>
 		<div class="container-fluid">
@@ -46,17 +27,17 @@
 					<div class="logo"></div>
 					<div id="navbar" class="navbar-collapse collapse">
 						<ul class="nav navbar-nav navbar-left">
-							<li><a href="/#">About</a></li>
-							<li><a href="/#/event">Event Details</a></li>
-							<li><a href="/#/rules">Rules</a></li>
+							<li><a href="index.html">About</a></li>
+							<li><a href="event.html">Event Details</a></li>
+							<li><a href="rules.html">Rules</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" >Register
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">Register
 								<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-								  <li><a href="/#/register_friendly">Friendly</a></li>
-								  <li><a href="/#/register_competitive">Competitive</a></li>
+								  <li><a href="register_friendly.html">Friendly</a></li>
+								  <li><a href="register_competitive.html">Competitive</a></li>
 								</ul>
 							</li>
 							<li><a href="#">Contact</a></li>
@@ -65,33 +46,18 @@
 				</div><!--/.container-fluid -->
 			</nav>
 		</div>
-		<div class="body-wrapper">
-			<!-- MAIN CONTENT AND INJECTED VIEWS -->
-
-				<div ng-view></div>
-
-				<!-- angular templating -->
-       			<!-- this is where content will be injected -->
-
-		</div>
-		<div class="container-fluid footer">
-			<div class="container footer-body">
+		<div class="container container-body">
 			<div class="row">
-				<div class="col-md-1">
-					<div id="footer-logo"></div>
+				<div class="col-md-12">
+					<h1>About</h1>
 				</div>
-
-				<div class="footer-text col-md-3">
-					<div class="row">
-						<span>Terms of Use&emsp;About&emsp;Contact Us</span>
-					</div>
-					<div class="row">
-						<span>© Kevin Gilbert Scholarship Fund. All rights reserved.</span>
-					</div>
-				</div>
-
-
 			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>
+					Aliquam ut bibendum justo. Donec lorem arcu, consequat sit amet vestibulum quis, congue ut nisl. In et quam dictum, ornare felis vitae, imperdiet tortor. Mauris non commodo metus, vel pellentesque sem. Etiam dapibus mi eu turpis interdum lacinia. Aenean auctor pretium arcu eu congue. In eget dolor nibh.
+					</p>
+				</div>
 			</div>
 		</div>
 	</body>
