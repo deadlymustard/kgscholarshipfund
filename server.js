@@ -68,9 +68,6 @@
     app.get('/register/team/:team_id', routes.register_team);
 
     // listen (start app with node server.js) ======================================
-    http.createServer(app).listen(app.get('port'), function () {
-      console.log('Express server listening on port ' + app.get('port'));
-    });
-
+    http.createServer(app).listen(process.env.PORT || 5000);
 
 
