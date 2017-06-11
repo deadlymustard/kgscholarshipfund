@@ -26,8 +26,6 @@
       console.error("File config.json not found or is invalid: " + e.message);
       process.exit(1);
     }
-    routes.init(config);
-
 
 //...
     const corsOptions = {
@@ -68,9 +66,6 @@
     app.get('/', routes.index);
     app.post('/register', routes.register);
     app.get('/register/team/:team_id', routes.register_team);
-    app.get('/create', routes.create);
-    app.get('/execute', routes.execute);
-    app.get('/cancel', routes.cancel);
 
     // listen (start app with node server.js) ======================================
     http.createServer(app).listen(app.get('port'), function () {

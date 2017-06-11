@@ -1,5 +1,7 @@
-var paypal = require('paypal-rest-sdk');
 var hash = require('json-hash');
+var handlebars = require('handlebars');
+var fs = require('fs');
+
 var config = {};
 
 
@@ -35,15 +37,24 @@ let transporter = nodemailer.createTransport({
     port: 465,
     secure: true, // secure:true for port 465, secure:false for port 587
     auth: {
-        user: 'regdshaner@gmail.com',
-        pass: 'wearenotyourkindofpeople0451'
+        user: 'ktgwiff@gmail.com',
+        pass: 'KevinGilbert'
     }
 });
 
 
-/*
- * GET home page.
- */
+var readHTMLFile = function(path, callback) {
+    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+        if (err) {
+            throw err;
+            callback(err);
+        }
+        else {
+            callback(null, html);
+        }
+    });
+};
+
 
 exports.index = function(req, res) {
   res.sendfile('./index.html'); // load the single view file (angular will handle the page changes on the front-end)
@@ -67,22 +78,33 @@ exports.register = function(req, res) {
     new_team.save(function (err, new_team) {
       if (err) return console.error(err);
 
-        //Send an email to the customer
-        let mailOptionsCustomer = {
-            from: 'claire@kgscholarshipfund.com', // sender address
-            to: new_team.email, // list of receivers
-            subject: 'Kevin Gilbert Scholarship Fund Confirmation', // Subject line
-            text: 'Hello world ?', // plain text body
-            html: '<b>Hello world ?</b>' // html body
-        };
-/*
-        transporter.sendMail(mailOptionsCustomer, (error, info) => {
+
+        readHTMLFile(__dirname + '/templates/email_confirmation.html', function(err, html) {
+            var template = handlebars.compile(html);
+            var replacements = {
+                 team_name: new_team.name,
+                 team_email: new_team.email,
+                 team_phone: new_team.phone,
+                 team_members: new_team.members,
+                 price_information: new_team.price,
+                 payment_url: 'http://localhost:5000/#/register/team/' + new_team.hash
+            };
+            var htmlToSend = template(replacements);
+            var mailOptionsCustomer = {
+                from: 'ktgwiff@gmail.com', // sender address
+                to: new_team.email, // list of receivers
+                subject: 'Kevin Gilbert Wiffle Ball Tournament Registration Confirmation', // Subject line
+                text: 'Test', // plain text body
+                html : htmlToSend
+             };
+            transporter.sendMail(mailOptionsCustomer, (error, info) => {
             if (error) {
                 return console.log(error);
             }
             console.log('Message %s sent: %s', info.messageId, info.response);
+            });
         });
-*/
+
         //Send an email to Claire
         let mailOptionsInternal = {
             from: 'claire@kgscholarshipfund.com', // sender address
@@ -115,68 +137,3 @@ exports.register_team = function(req, res) {
         res.send(teams[0]);
 	});
 };
-
-exports.create = function(req, res){
-	var payment = {
-		"intent": "sale",
-		"payer": {
-			"payment_method": "paypal"
-		},
-		"redirect_urls": {
-			"return_url": "http://localhost:8000/execute",
-			"cancel_url": "http://localhost:8000/cancel"
-		},
-		"transactions": [{
-		"amount": {
-	 		"total": "5.00",
-		  	"currency": "USD"
-		},
-		"description": "My awesome payment"
-		}]
-    };
-	paypal.payment.create(payment, function (error, payment) {
-		if (error) {
-		  console.log(error);
-		} else {
-			if(payment.payer.payment_method === 'paypal') {
-	      		req.session.paymentId = payment.id;
-	      		var redirectUrl;
-	      		for(var i=0; i < payment.links.length; i++) {
-		        	var link = payment.links[i];
-		        	if (link.method === 'REDIRECT') {
-		          		redirectUrl = link.href;
-		        	}
-		      	}
-	      	res.redirect(redirectUrl);
-	    	}
-		}   
-	});
-}
-
-exports.execute = function(req, res) {
-	console.log('hi 6!');
-        var paymentId = req.session.paymentId;
-        var payerId = req.param('PayerID');
-
-        var details = { "payer_id": payerId };
-        paypal.payment.execute(paymentId, details, function (error, payment) {
-            if (error) {
-                console.log(error);
-            } else {
-                res.send("Hell yeah!");
-            }
-    });	
-};
-
-exports.cancel = function(req, res) {
-    res.send("The payment got canceled");
-};
-
-/*
- * SDK configuration
- */
-
-exports.init = function(c){
-  config = c;
-  paypal.configure(c.api);
-}
