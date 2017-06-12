@@ -2,6 +2,14 @@ p, li {
 	font-size: 16px;
 }
 
+html,body
+{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
+}
+
 form {
 	padding: 15px;
 }
@@ -201,7 +209,7 @@ ul.nav a:hover { color: #fff !important; }
 
 .footer
 {
-    height: 50px;
+    height: 65px;
     background-color: black;
     position: relative ;
     left: 0;
@@ -286,6 +294,16 @@ ul.nav a:hover { color: #fff !important; }
 		padding-top: 5px;
 	}
 
+	.footer-body {
+	padding-left: 15px;
+	padding-right: 15px;
+
+
+	padding-top: 5px;
+	background-color: black;
+}
+
+
 	.container-body p {
 	font-size: 18px;
 	font-weight: 500;
@@ -294,6 +312,16 @@ ul.nav a:hover { color: #fff !important; }
 	.content {
 		padding-top: 10px;
 	}
+
+	.footer-text {
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: 15px;
+}
+}
+
+#googleMap{
+    border-radius: 10px;
 }
 
 .navbar-default {
