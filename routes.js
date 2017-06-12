@@ -79,15 +79,19 @@ exports.register = function(req, res) {
       if (err) return console.error(err);
 
 
+        console.log('host: ' + req.headers.host);
+        console.log(new_team.members[0]);
+
+
         readHTMLFile(__dirname + '/templates/email_confirmation.html', function(err, html) {
             var template = handlebars.compile(html);
             var replacements = {
                  team_name: new_team.name,
                  team_email: new_team.email,
                  team_phone: new_team.phone,
-                 team_members: new_team.members,
+                 team_members: new_team.members[0],
                  price_information: new_team.price,
-                 payment_url: 'http://localhost:5000/#/register/team/' + new_team.hash
+                 payment_url: 'http://' + req.headers.host + '/#/register/team/' + new_team.hash
             };
             var htmlToSend = template(replacements);
             var mailOptionsCustomer = {

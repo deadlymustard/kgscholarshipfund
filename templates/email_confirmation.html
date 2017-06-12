@@ -1,12 +1,16 @@
 
 <h3>Congratualtions! You're registered!</h3>
-<p>Here is your team's information:</p>
+<span>Here is your team's information:</span><br/><br/>
 
-<p>{{ team_name }}</p>
-<p>{{ team_email }}</p>
-<p>{{ team_phone }}</p>
-<p>{{ team_members }}</p>
-<p>{{ price_information }}</p>
+<span>Team Name: {{ team_name }}</span><br/>
+<span>Phone: {{ team_phone }}</span><br/><br/>
+<span>Team Members:</span><br/>
+{{#team_members}}
+    <span>Name: {{name}}</span><br/>
+    <span>Jersey Number: {{number}}</span><br/>
+    <span>Shirt Size: {{shirt_size}}</span><br/><br/>
+{{/team_members}}
+<span>Payment Due: ${{ price_information }}</span><br/>
 
-<p>Haven't paid? Here's the unique link to your team's payment page: <p>{{ payment_url }}</p></p>
-<p>Any questions? Send an email to ktgwiff@gmail.com!</p>
+<span>Haven't paid? Here's the unique link to your team's payment page: {{ payment_url }}</span><br/>
+<span>Any questions? Send an email to ktgwiff@gmail.com!</span><br/>

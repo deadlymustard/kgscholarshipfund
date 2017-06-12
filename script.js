@@ -63,10 +63,15 @@
         $scope.isDisabled = false;
         $scope.members = [{id: 'member1'}, {id: 'member2'}, {id: 'member3'}, {id: 'member4'}];
         $scope.isDisabled = false;
+
+
         calculateTotals = function() {
             $scope.memberCount = $scope.members.length - 4;
             $scope.memberTotal = $scope.memberCount * 25;
-            $scope.finalTotal = 100 + $scope.memberTotal;
+            $scope.transactionFee = ((100 + $scope.memberTotal) * .029 + .3).toFixed(2);
+            var transactionFee = ((100 + $scope.memberTotal) * .029 + .3);
+
+            $scope.finalTotal = (100 + $scope.memberTotal + transactionFee).toFixed(2);
         };
         calculateTotals();
 
@@ -127,7 +132,7 @@
                   url: '/register'
                 }).then(function successCallback(response) {
                     var hash = response.data.hash;
-                    $location.path('/register/team/team_id=' + hash);
+                    $location.path('/register/team/' + hash);
                   }, function errorCallback(response) {
                     console.log(response);
                   });
@@ -192,13 +197,9 @@
                 }, '#paypal-button-container');
 
             } else {
-                
+
             }
 
-            
-
-
-           
             // this callback will be called asynchronously
             // when the response is available
           }, function errorCallback(response) {

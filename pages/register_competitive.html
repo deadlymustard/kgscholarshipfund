@@ -1,4 +1,5 @@
 <div class="container container-body">
+	<div class="content">
 	<div class="registration-header">
 		<div class="row">
 			<div class="col-md-12">
@@ -83,19 +84,20 @@
             </div>
         </div>
         <div class="row">
-       		<div class="col-md-2 col-xs-2">
+       		<div class="col-md-3 col-xs-3">
        			<button ng-click="addNewMember()" class="btn btn-success btn-add" type="button">
-                	<span class="glyphicon glyphicon-plus"> Add</span>
+                	<span class="glyphicon glyphicon-plus"></span>
+               	</button>
+               	<button ng-click="removeMember()" class="btn btn-danger btn-minus" type="button">
+                	<span class="glyphicon glyphicon-minus"></span>
                	</button>
        		</div>
-       		<div class="col-md-2 col-xs-2">
-       			<button ng-click="removeMember()" class="btn btn-danger btn-minus" type="button">
-                	<span class="glyphicon glyphicon-minus"> Remove</span>
-               	</button>
+       		<div class="col-md-3 col-xs-3">
+       			
        		</div>
    		</div>
    		<div class="row">
-   			<div class="col-md-12 col-xs-12">
+   			<div class="col-md-2 col-xs-2">
    				<button ng-disabled="isDisabled" ng-click="submitTeam()" type="submit" class="btn btn-submit btn-primary">Submit</button>
    			</div>
    		</div>
@@ -108,10 +110,12 @@
 			<div class="col-md-3 col-xs-7">
 				<span>Team Fee</span><br>
 				<span>Additional Member ($25) x</span><span id="members">{{ memberCount }}</span><br>
+				<span>Transaction Fee</span>
 			</div>
 			<div class="col-md-3 col-xs-5">
 				<span>$100</span><br>
-				<span id="memberTotal">{{ memberTotal }}</span><br>
+				<span id="memberTotal">${{ memberTotal }}</span><br>
+				<span>${{ transactionFee }}</span>
 			</div>
 		</div>
 		<div class="row">
@@ -150,3 +154,4 @@
 		    Thanks, <span id="thanksname"></span>!
 		</div>
 	</div>
+</div>

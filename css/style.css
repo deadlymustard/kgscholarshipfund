@@ -8,6 +8,7 @@ form {
 
 .content {
 	padding-top: 50px;
+	min-height: 1000px;
 }
 
 .content-row {
@@ -50,11 +51,11 @@ form {
 }
 
 .navbar-left {
-	text-align: right;
+	text-align: left;
 }
 
 .navbar-right {
-	text-align: right;
+	text-align: left;
 	margin-right: 0px;
 }
 
@@ -89,8 +90,8 @@ ul.share-buttons img{
 }
 
 #footer-logo {
-	width: 66px;
-	height: 66px;
+	width: 33px;
+	height: 33px;
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-image: url("../img/KG_WiffleBall_Logo_FINAL.png");
@@ -98,7 +99,6 @@ ul.share-buttons img{
 
 .footer-text {
 	font-size: 10px;
-	margin-top:22px;
 }
 
 .social-text {
@@ -129,22 +129,24 @@ ul.share-buttons img{
 
 .navbar-collapse {
 	border-width: 0px;
+
+}
+
+.navbar-toggle {
+	float: left;
+	margin-left: 20px;
+}
+
+button {
+	margin-top: 10px;
 }
 
 
 
 
-* {
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 0 !important;
-
-          font-family: 'Roboto', sans-serif;
-
-}
 
 .body-wrapper {
-
+	min-height: 1000px;
 }
 
 
@@ -172,29 +174,34 @@ ul.nav a:hover { color: #fff !important; }
     color:#fff;
   }
 
+  .navbar-default .navbar-nav>li>a {
+    color: #fff;
+}
+
 
 .container-body {
 	height:200%;
 	min-height: 200%;
-	padding-left: 90px;
-	padding-right: 90px;
+	padding-left: 120px;
+	padding-right: 120px;
 	-webkit-box-shadow: 0 0 15px rgba(0,0,0,0.25);
     -moz-box-shadow: 0 0 15px rgba(0,0,0,0.25);
     box-shadow: 0 0 15px rgba(0,0,0,0.25);
 
 	padding-top: 15px;
+	padding-bottom: 25px;
 	background-color: white;
 }
 
 .container-body p {
 	font-size: 21px;
+	font-family: 'Open Sans', sans-serif;
 
-	font-weight: 500;
 }
 
 .footer
 {
-    height: 100px;
+    height: 50px;
     background-color: black;
     position: relative ;
     left: 0;
@@ -273,10 +280,101 @@ ul.nav a:hover { color: #fff !important; }
 	    height: 280px;
 	}
 
+	.container-body {
+		padding-left: 15px;
+		padding-right: 15px;
+		padding-top: 5px;
+	}
+
 	.container-body p {
 	font-size: 18px;
-
 	font-weight: 500;
+	}
+
+	.content {
+		padding-top: 10px;
+	}
 }
+
+.navbar-default {
+  background-color: #000000;
+  border-color: #000000;
 }
+.navbar-default .navbar-brand {
+  color: #ffffff;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-text {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #000000;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #ffffff;
+  background-color: #000000;
+}
+.navbar-default .navbar-toggle {
+  border-color: #000000;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #000000;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #ffffff;
+}
+.navbar-default .navbar-link {
+  color: #ffffff;
+}
+.navbar-default .navbar-link:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #000000;
+  }
+}
+
+
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+
+          font-family: 'Roboto', sans-serif;
+
+}
+
+
 
