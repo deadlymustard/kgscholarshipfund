@@ -145,3 +145,16 @@ exports.color = function(req, res) {
         }
     });
 };
+
+exports.pay = function(req, res) {
+
+    var grabTeam = mongoose.model('Team', teamSchema);
+
+    console.log(req.params.team_id);
+
+    grabTeam.findOneAndUpdate(req.params.team_id, { $set: {paid: true}}, function(err, team) {
+        if(err) return console.log(err);
+
+        res.send(team);
+    });
+};

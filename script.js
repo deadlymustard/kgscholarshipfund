@@ -284,10 +284,23 @@
 
     wiffle.controller('confirmationController', function($scope, $http, $routeParams) {
         // $scope.isDisabled = true;
+        $scope.paid = false;
 
 
         var params = $routeParams.team_id;
         var query = '/register/team/' + params;
+
+        var check_paid = '/team/pay/' + $routeParams.team_id;
+        $http({
+          method: 'GET',
+          url: check_paid
+        }).then(function successCallback(response) {
+            console.log(response);
+            if(response.data.paid == true)
+                $scope.paid = true;
+        }, function errorCallback(response) {
+            console.log(response);
+        });
 
 
         console.log(query);
@@ -331,6 +344,16 @@
                     // Make a call to the REST api to execute the payment
                     return actions.payment.execute().then(function() {
                         window.alert('Payment Complete!');
+                        var pay_query = '/team/pay/' + $routeParams.team_id;
+                        $http({
+                          method: 'GET',
+                          url: pay_query
+                        }).then(function successCallback(response) {
+                            console.log(response);
+                            
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
                     });
                 }
 
