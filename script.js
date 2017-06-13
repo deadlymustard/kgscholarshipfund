@@ -66,7 +66,7 @@
 
     });
 
-    wiffle.controller('registerFriendlyController', function($scope) {
+    wiffle.controller('registerFriendlyController', function($scope, $http, $location) {
         var valid = true;
 
         $scope.isDisabled = false;
