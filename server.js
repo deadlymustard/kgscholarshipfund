@@ -66,6 +66,7 @@
     app.get('/', routes.index);
     app.post('/register', routes.register);
     app.get('/register/team/:team_id', routes.register_team);
+    app.get('/team/color/:color', routes.color);
 
     // listen (start app with node server.js) ======================================
     http.createServer(app).listen(process.env.PORT || 5000);

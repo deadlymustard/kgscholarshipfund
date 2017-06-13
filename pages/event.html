@@ -1,47 +1,60 @@
 <div class="container container-body">
 	<div class="content">
 		<div class="row">
-			<h2>Event Details</h2>
+			<div class="col-md-12 event-details">
+				<p>Join us in memory of Kevin Gilbert:</p>
+				<p><b>1st Annual Kevin Gilbert Wiffle Ball Tournament</b></p>
+				<p>to benefit the Kevin Gilbert Scholarship Fund</p>
+			</div>
 		</div>
-		<div class="row">
-			<h3>Time/Place</h3>
-			<div class="col-md-3">
+		<div class="row location-details">
+			<div class="col-md-5">
 				<p>
-				When:<br>
-				Sunday, August 27th at at 7:30am<br>
+					<b>WHEN</b><br>
+					Sunday, August 27th<br>
 				</p>
+				<p>Registration opens at 7:30! <br>First game will start at 8:00</p>
+				<p>Schedule TBD.</p><br>
 				<p>
-				Where:<br>
-				Pickell Park<br>
-				515 Main St, Whitehouse Station, NJ<br>
-				08889<br>
+					<b>WHERE</b><br>
+					Pickell Park<br>
+					515 Main St, Whitehouse Station, NJ<br>
 				</p>
 			</div>
-			<div class="col-md-9">
+			<div class="col-md-7">
 				<div id="googleMap" style="width:100%;height:350px;"></div>
 				<br>
 				<br>
 				<br>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<p><b>REGISTRATION</b></p><br>
+				<p>Register today for one of two leagues: a <a href="/#/register_competitive">competitive play-to-win league</a> and a <a href="/#/register_friendly">friendly play-for-fun league</a>. Minimum of 4 players for the competative league, minimimum of 5 for friendly.</p><br>
+				<p>Registration is $100 per team. Registration includes a free t-shirt and a two-game gaurantee.</p><br>
+				<p>Tournament is open to everyone 16 and older.</p><br>
+				<p>Read the tournament rules and regulations <a href="/#/rules">here</a>.</p><br><br>
+				<p><b>VENUE INFORMATION</b></p><br>
+				<p>Alcohol is permitted at the pavilion only. BYOB.</p>
+				<p>There are a limited number of grills available located in the pavilion area for use on first come first serve basis. Please bring your own cooking supplies and ingredients, as they will not be provided.</p><br>
+			</div>
+		</div>
 	</div>
 </div>
-
 <script>
-  function initMap() {
-
-    var uluru = {lat: 40.6062029, lng: -74.7797174};
-    var map = new google.maps.Map(document.getElementById('googleMap'), {
-      zoom: 10,
-      center: uluru
-    });
-    var marker = new google.maps.Marker({
-      position: uluru,
-      map: map
-    });
-  }
+function initMap() {
+var uluru = {lat: 40.6062029, lng: -74.7797174};
+var map = new google.maps.Map(document.getElementById('googleMap'), {
+zoom: 14,
+center: uluru
+});
+var marker = new google.maps.Marker({
+position: uluru,
+map: map
+});
+}
 </script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfAdmQaDTEfg5S3wBvhLiSmt6AbbvBaL8&callback=initMap">
 </script>
-

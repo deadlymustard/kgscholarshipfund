@@ -20,13 +20,19 @@ var teamSchema = mongoose.Schema({
     name: String,
     email: String,
     phone: String,
+    color: String,
     members: [],
     price: String,
+    league: String,
     paid: false
 });
 
 teamSchema.static('findByHash', function (hash, callback) {
   return this.find({ hash: hash }, callback);
+});
+
+teamSchema.static('findByColor', function (color, callback) {
+  return this.find({ color: color }, callback);
 });
 
 // Setup mail service
@@ -72,7 +78,8 @@ exports.register = function(req, res) {
     var Team = mongoose.model('Team', teamSchema);
 
     var new_team = new Team({hash: hash_id, name: req.body.name, email: req.body.email,
-                            phone: req.body.phone, members: req.body.members, price: req.body.price,
+                            phone: req.body.phone, members: req.body.members, color: req.body.color, 
+                            price: req.body.price, league: req.body.league,
                             paid: false});
 
     new_team.save(function (err, new_team) {
@@ -96,7 +103,7 @@ exports.register = function(req, res) {
             var htmlToSend = template(replacements);
             var mailOptionsCustomer = {
                 from: 'ktgwiff@gmail.com', // sender address
-                to: new_team.email, // list of receivers
+                to: new_team.email + ', ktgwiff@gmail.com',  // list of receivers
                 subject: 'Kevin Gilbert Wiffle Ball Tournament Registration Confirmation', // Subject line
                 text: 'Test', // plain text body
                 html : htmlToSend
@@ -109,22 +116,7 @@ exports.register = function(req, res) {
             });
         });
 
-        //Send an email to Claire
-        let mailOptionsInternal = {
-            from: 'claire@kgscholarshipfund.com', // sender address
-            to: 'regdshaner@gmail.com', // list of receivers
-            subject: 'New Customer is registered.', // Subject line
-            text: 'Hello world ?', // plain text body
-            html: '<b>Hello world ?</b>' // html body
-        };
-/*
-        transporter.sendMail(mailOptionsInternal, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-        });
-*/
+
          res.send(new_team);
     });
 }
@@ -140,4 +132,16 @@ exports.register_team = function(req, res) {
         console.log(teams);
         res.send(teams[0]);
 	});
+};
+
+exports.color = function(req, res) {
+    var grabTeam = mongoose.model('Team', teamSchema);
+
+    grabTeam.findByColor(req.params.color, function(err, teams) {
+        if(teams.length > 0) {
+            res.send('false');
+        } else {
+            res.send('true');
+        }
+    });
 };
