@@ -319,7 +319,7 @@
                     return actions.payment.create({
                         transactions: [
                             {
-                                amount: { total: '.01', currency: 'USD' }
+                                amount: { total: response.data.price, currency: 'USD' }
                             }
                         ]
                     });
