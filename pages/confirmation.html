@@ -11,10 +11,10 @@
 				<p>Please pay by one of the below options:</p>
 			</div>
 		</div>
-		<div ng-show="paid">
+		<div ng-hide="!paid">
 			<p> No need to pay again. You're all set!</p>
 		</div>
-		<div ng-show="!paid">
+		<div ng-hide="paid">
 			<div class="row">
 				<div class="col-md-12">
 					<p>

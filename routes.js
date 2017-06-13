@@ -152,8 +152,10 @@ exports.pay = function(req, res) {
 
     console.log(req.params.team_id);
 
-    grabTeam.findOneAndUpdate(req.params.team_id, { $set: {paid: true}}, function(err, team) {
+    grabTeam.findOneAndUpdate({hash: req.params.team_id}, { $set: {paid: true}}, function(err, team) {
         if(err) return console.log(err);
+
+        console.log("***UPDATED TEAM***\n" + team);
 
         res.send(team);
     });

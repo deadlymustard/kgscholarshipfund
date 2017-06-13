@@ -290,19 +290,6 @@
         var params = $routeParams.team_id;
         var query = '/register/team/' + params;
 
-        var check_paid = '/team/pay/' + $routeParams.team_id;
-        $http({
-          method: 'GET',
-          url: check_paid
-        }).then(function successCallback(response) {
-            console.log(response);
-            if(response.data.paid == true)
-                $scope.paid = true;
-        }, function errorCallback(response) {
-            console.log(response);
-        });
-
-
         console.log(query);
         $http({
           method: 'GET',
@@ -360,7 +347,7 @@
                 }, '#paypal-button-container');
 
             } else {
-
+                $scope.paid = true;
             }
 
             // this callback will be called asynchronously
