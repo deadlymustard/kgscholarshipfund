@@ -78,14 +78,38 @@
 
     });
 
-    wiffle.controller('donateController', function($scope, env) {
+    wiffle.controller('donateController', function($scope, $log, $http, env) {
+
+        $scope.shirts = [{id: 'shirt1'}];
+        var numShirts;
 
         calculateTotals = function() {
-            $scope.transactionFee = ((25) * .029 + .3).toFixed(2);
-            var transactionFee = ((25) * .029 + .3);
+            numShirts = $scope.shirts.length;
+            $scope.numShirts = numShirts;
+            $scope.shirtTotal = (25 * numShirts);
+            $scope.transactionFee = ((25 * numShirts) * .029 + .3).toFixed(2);
+            var transactionFee = ((25 * numShirts) * .029 + .3);
 
-            $scope.finalTotal = (25 + transactionFee).toFixed(2);
+            $scope.finalTotal = ($scope.shirtTotal + transactionFee).toFixed(2);
         };
+
+        $scope.addNewShirt = function() {
+            var newItemNo = $scope.shirts.length+1;
+            $scope.shirts.push({'id':'shirt'+newItemNo});
+            calculateTotals();
+        };
+
+        $scope.removeShirt = function() {
+            if($scope.shirts.length == 1) {
+                //Do nothing
+            } else {
+                var lastItem = $scope.shirts.length-1;
+                $scope.shirts.splice(lastItem);
+                calculateTotals();
+            } 
+        };
+
+
 
         calculateTotals();
 
@@ -113,7 +137,7 @@
                     return actions.payment.create({
                         transactions: [
                             {
-                                amount: { total: '50', currency: 'USD' }
+                                amount: { total: $scope.donation_amount, currency: 'USD' }
                             }
                         ]
                     });
@@ -152,10 +176,12 @@
                     return actions.payment.create({
                         transactions: [
                             {
-                                amount: { total: '50', currency: 'USD' }
+                                amount: { total: $scope.finalTotal, currency: 'USD' }
                             }
                         ]
                     });
+
+
                 },
 
                 // onAuthorize() is called when the buyer approves the payment
@@ -163,7 +189,26 @@
 
                     // Make a call to the REST api to execute the payment
                     return actions.payment.execute().then(function() {
-                        window.alert('Payment Complete!');
+
+                        var orderOutput = {
+                            "name": $scope.name,
+                            "email": $scope.email,
+                            "shirts": [
+                                $scope.shirts
+                            ],
+                        };
+
+                        $log.debug("Outbound JSON: " + JSON.stringify(orderOutput, null, 2))
+
+                        $http({
+                          method: 'POST',
+                          data: orderOutput,
+                          url: '/order'
+                        }).then(function successCallback(response) {
+                            alert("Order successful. An e-mail has been sent to you confirming your purchase.");
+                          }, function errorCallback(response) {
+                            $log.debug(response)
+                          });
                     });
                 }
 

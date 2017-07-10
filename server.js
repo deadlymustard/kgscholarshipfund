@@ -43,6 +43,7 @@ logger.debug("Setting up routes");
 // Setting up routes
 app.get('/', routes.index);
 app.post('/register', routes.register);
+app.post('/order', routes.order);
 app.get('/register/team/:team_id', routes.register_team);
 app.get('/team/color/:color', routes.color);
 app.get('/team/pay/:team_id', routes.pay);

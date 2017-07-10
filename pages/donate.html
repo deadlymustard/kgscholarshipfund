@@ -67,8 +67,31 @@
 				<br>
 				<div class="row">
 					<div class="col-md-6 col-xs-6">
+						<small class="form-text text-muted">E-mail</small>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 col-xs-6">
+						<input ng-model="email" type="text" name="email" class="form-control" id="member1" placeholder="e.g. john@gmail.com">
+						<br />
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 col-xs-6">
 						<small class="form-text text-muted">Name</small>
 					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 col-xs-6">
+						<input ng-model="name" type="text" name="name" class="form-control" id="member1" placeholder="e.g. John/Jane Smith">
+						<br />
+					</div>
+				</div>
+
+				<div class="row">
 					<div class="col-md-6 col-xs-6">
 						<small class="form-text text-muted">Shirt Size</small>
 					</div>
@@ -76,11 +99,9 @@
 
 				<div ng-repeat="shirt in shirts" class="entry">
 					<div class="row">
+
 						<div class="col-md-6 col-xs-6">
-							<input type="text" name="name" class="form-control" id="member1" placeholder="e.g. John/Jane Smith">
-						</div>
-						<div class="col-md-6 col-xs-6">
-							<select class="form-control" id="sel1" >
+							<select ng-model="shirt.shirt_size" class="form-control" id="sel1" >
 								<option>S</option>
 								<option>M</option>
 								<option>L</option>
@@ -106,11 +127,11 @@
 				<div class="totals">
 					<div class="row">
 						<div class="col-md-3 col-xs-7">
-							<span>Shirt Price</span><br>
+							<span>Shirt Price ($25 ea.) x {{ numShirts }}</span><br>
 							<span>Transaction Fee</span>
 						</div>
 						<div class="col-md-3 col-xs-5">
-							<span>$25</span><br>
+							<span>${{ shirtTotal }}</span><br>
 							<span>${{ transactionFee }}</span>
 						</div>
 					</div>

@@ -1,0 +1,6 @@
+{
+	"env": "staging",
+	"port": 5000,
+	"mongoDatabaseName": "staging",
+	"confirmationEmailTarget": "regdshaner@gmail.com"
+}

@@ -36,6 +36,14 @@ teamSchema.static('findByColor', function (color, callback) {
 });
 
 
+var orderSchema = mongoose.Schema(
+  {
+    name: String,
+    shirts: []
+  }
+);
+
+
 // Initial Page Load
 exports.index = function(req, res) {
   logger.info("Hello!");
@@ -105,6 +113,60 @@ exports.register = function(req, res) {
       });
 
       res.send(new_team);   
+  });
+}
+
+// Register a new team
+exports.order = function(req, res) {
+
+  // Grab data from body and generated a hash
+  var data = req.body;
+  logger.info("Inbound JSON: " + logger.info(req.body));
+
+  var Order = mongoose.model('Order', orderSchema, 'orders');
+  var new_order = new Order(
+    {
+    name: req.body.name,
+    email: req.body.email,
+    shirts: req.body.shirts
+    }
+  );
+
+  // Save new team to database
+  new_order.save(function (err, new_order) {
+    if (err) return logger.error("Error saving order to DB:\n" + err);
+
+      var host = req.headers.host;
+      logger.info("New order '" + new_order.name + "' saved to database.");
+      logger.info("Current Host: " + host);
+      logger.info("Members: " + new_order.shirts[0]);
+
+      // Define replacements
+      var replacements = {
+        order_name: new_order.name,
+        order_emai: new_order.email,
+        order_shirts: new_order.shirts[0]
+      };
+
+      // Define mail option metadata
+      var mailOptions = {
+        from: 'ktgwiff@gmail.com', 
+        to: new_order.email,  
+        subject: 'Kevin Gilbert Wiffle Ball Tournament Registration Confirmation'
+      };
+
+      // Send confirmation e-mail to customer
+      mailer.sendMailTemplate('/templates/order_confirmation.html', replacements, mailOptions , function(err) {
+        if (err) return logger.error("Error sending confirmation mail template:\n" + err);
+      });
+
+      // Send registration email to host
+      mailOptions.to = cfg.confirmationEmailTarget;
+      mailer.sendMailTemplate('/templates/order_confirmation.html', replacements, mailOptions, function(err) {
+        if (err) return logger.error("Error sending registered mail template:\n" + err);
+      });
+
+      res.send(new_order);   
   });
 }
 
