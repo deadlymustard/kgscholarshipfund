@@ -1,22 +1,23 @@
+var mongoose = require('mongoose'); 
 var hash = require('json-hash');
-var handlebars = require('handlebars');
-var fs = require('fs');
 
-var config = {};
+var cfg = require('./config');
+var mailer = require('./mailer')
+var logger = require('./logger');
 
 
-var mongoose = require('mongoose');     
-// connection string using mongoose:
-var uri = 'mongodb://regdshaner:itisme@' +
+// Setup DB Connection and connect
+var uri = 'mongodb://regdshaner:' + process.env.MONGO_PASSWORD + '@' +
   'kgscholarship-shard-00-00-pjhb9.mongodb.net:27017,' +
   'kgscholarship-shard-00-01-pjhb9.mongodb.net:27017,' +
-  'kgscholarship-shard-00-02-pjhb9.mongodb.net:27017/test' +
+  'kgscholarship-shard-00-02-pjhb9.mongodb.net:27017/' + cfg.mongoDatabaseName +
   '?ssl=true&replicaSet=kgscholarship-shard-0&authSource=admin';
 mongoose.connect(uri);
 
-// define model =================
-var teamSchema = mongoose.Schema({
-    hash: {type: String, unique : true, required : true, dropDups: true},
+// Database Model
+var teamSchema = mongoose.Schema(
+  {
+    hash: { type: String, unique : true, required : true, dropDups: true },
     name: String,
     email: String,
     phone: String,
@@ -25,115 +26,103 @@ var teamSchema = mongoose.Schema({
     price: String,
     league: String,
     paid: false
-});
-
+  }
+);
 teamSchema.static('findByHash', function (hash, callback) {
   return this.find({ hash: hash }, callback);
 });
-
 teamSchema.static('findByColor', function (color, callback) {
   return this.find({ color: color }, callback);
 });
 
-// Setup mail service
-const nodemailer = require('nodemailer');
-// create reusable transporter object using the default SMTP transport
-let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // secure:true for port 465, secure:false for port 587
-    auth: {
-        user: 'ktgwiff@gmail.com',
-        pass: 'KevinGilbert'
-    }
-});
 
-
-var readHTMLFile = function(path, callback) {
-    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
-        if (err) {
-            throw err;
-            callback(err);
-        }
-        else {
-            callback(null, html);
-        }
-    });
-};
-
-
+// Initial Page Load
 exports.index = function(req, res) {
+  logger.info("Hello!");
   res.sendfile('./index.html'); // load the single view file (angular will handle the page changes on the front-end)
 };
 
+// Register a new team
 exports.register = function(req, res) {
-	var data = req.body;
-    console.log("Inbound JSON: " + console.log(req.body) );
 
-    var hash_id = hash.digest(req.body);
-    console.log("hash:" + hash_id);
+  // Grab data from body and generated a hash
+  var data = req.body;
+  logger.info("Inbound JSON: " + logger.info(req.body));
+  var hash_id = hash.digest(req.body);
+  logger.info("Generated Hash:" + hash_id);
 
-    var response_data;
+  // Create a new team based on the incoming request data
+  var Team = mongoose.model('Team', teamSchema, 'teams');
+  var new_team = new Team(
+    {
+      hash: hash_id, 
+      name: req.body.name, 
+      email: req.body.email,
+      phone: req.body.phone, 
+      members: req.body.members, 
+      color: req.body.color, 
+      price: req.body.price, 
+      league: req.body.league,
+      paid: false
+    }
+  );
 
-    var Team = mongoose.model('Team', teamSchema);
+  // Save new team to database
+  new_team.save(function (err, new_team) {
+    if (err) return logger.error("Error saving team to DB:\n" + err);
 
-    var new_team = new Team({hash: hash_id, name: req.body.name, email: req.body.email,
-                            phone: req.body.phone, members: req.body.members, color: req.body.color, 
-                            price: req.body.price, league: req.body.league,
-                            paid: false});
+      var host = req.headers.host;
+      logger.info("New team '" + new_team.name + "' saved to database.");
+      logger.info("Current Host: " + host);
+      logger.info("Members: " + new_team.members[0]);
 
-    new_team.save(function (err, new_team) {
-      if (err) return console.error(err);
+      // Define replacements
+      var replacements = {
+        team_name: new_team.name,
+        team_email: new_team.email,
+        team_phone: new_team.phone,
+        team_members: new_team.members[0],
+        price_information: new_team.price,
+        payment_url: 'http://' + host + '/#/register/team/' + new_team.hash
+      };
 
+      // Define mail option metadata
+      var mailOptions = {
+        from: 'ktgwiff@gmail.com', 
+        to: new_team.email,  
+        subject: 'Kevin Gilbert Wiffle Ball Tournament Registration Confirmation'
+      };
 
-        console.log('host: ' + req.headers.host);
-        console.log(new_team.members[0]);
+      // Send confirmation e-mail to customer
+      mailer.sendMailTemplate('/templates/email_confirmation.html', replacements, mailOptions , function(err) {
+        if (err) return logger.error("Error sending confirmation mail template:\n" + err);
+      });
 
+      // Send registration email to host
+      mailOptions.to = cfg.confirmationEmailTarget;
+      mailer.sendMailTemplate('/templates/email_registered.html', replacements, mailOptions, function(err) {
+        if (err) return logger.error("Error sending registered mail template:\n" + err);
+      });
 
-        readHTMLFile(__dirname + '/templates/email_confirmation.html', function(err, html) {
-            var template = handlebars.compile(html);
-            var replacements = {
-                 team_name: new_team.name,
-                 team_email: new_team.email,
-                 team_phone: new_team.phone,
-                 team_members: new_team.members[0],
-                 price_information: new_team.price,
-                 payment_url: 'http://' + req.headers.host + '/#/register/team/' + new_team.hash
-            };
-            var htmlToSend = template(replacements);
-            var mailOptionsCustomer = {
-                from: 'ktgwiff@gmail.com', // sender address
-                to: new_team.email + ', ktgwiff@gmail.com',  // list of receivers
-                subject: 'Kevin Gilbert Wiffle Ball Tournament Registration Confirmation', // Subject line
-                text: 'Test', // plain text body
-                html : htmlToSend
-             };
-            transporter.sendMail(mailOptionsCustomer, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-            });
-        });
-
-
-         res.send(new_team);
-    });
+      res.send(new_team);   
+  });
 }
 
+// Register a new team
 exports.register_team = function(req, res) {
-	console.log('hi!');
-  	var grabTeam = mongoose.model('Team', teamSchema);
+  logger.info('hi!');
+  var grabTeam = mongoose.model('Team', teamSchema);
 
-  	console.log(req.params);
-    console.log(req.params.team_id);
+  logger.info("Incoming parameters: " + req.params);
+  logger.info("Incoming team_id: " + req.params.team_id);
 
-    grabTeam.findByHash(req.params.team_id, function(err, teams) {
-        console.log(teams);
-        res.send(teams[0]);
-	});
+  grabTeam.findByHash(req.params.team_id, function(err, teams) {
+    logger.info(teams);
+    res.send(teams[0]);
+  });
 };
 
+// Check to see if a color exists
 exports.color = function(req, res) {
     var grabTeam = mongoose.model('Team', teamSchema);
 
@@ -146,16 +135,17 @@ exports.color = function(req, res) {
     });
 };
 
+// Update a team to status of 'paid'
 exports.pay = function(req, res) {
 
     var grabTeam = mongoose.model('Team', teamSchema);
 
-    console.log(req.params.team_id);
+    logger.info(req.params.team_id);
 
     grabTeam.findOneAndUpdate({hash: req.params.team_id}, { $set: {paid: true}}, function(err, team) {
-        if(err) return console.log(err);
+        if(err) return logger.info(err);
 
-        console.log("***UPDATED TEAM***\n" + team);
+        logger.info("***UPDATED TEAM***\n" + team);
 
         res.send(team);
     });

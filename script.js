@@ -2,10 +2,18 @@
 
     // create the module and name it wiffle
         // also include ngRoute for all our routing needs
-    var wiffle = angular.module('wiffle', ['ngRoute', 'paypal-button']);
+    var wiffle = angular.module('wiffle', ['ngRoute', 'paypal-button', 'wiffle.config']);
+
 
     // configure our routes
-    wiffle.config(function ($routeProvider, $locationProvider) {
+    wiffle.config(function ($routeProvider, $locationProvider, $logProvider, $provide, env) {
+
+    $logProvider.debugEnabled(env === 'dev');
+    $provide.decorator('$log', function($delegate) {
+        $delegate.info = $logProvider.debugEnabled() ? $delegate.info : function() {};
+        $delegate.log = $logProvider.debugEnabled() ? $delegate.log : function() {};
+        return $delegate;
+    });
     $locationProvider.hashPrefix('');
     $routeProvider
 
@@ -35,6 +43,11 @@
                 controller  : 'contactController'
             })
 
+            .when('/donate', {
+                templateUrl : 'pages/donate.html',
+                controller  : 'donateController'
+            })
+
             .when('/register_competitive', {
                 templateUrl : 'pages/register_competitive.html',
                 controller  : 'registerCompetitiveController'
@@ -46,9 +59,8 @@
     });
 
     // create the controller and inject Angular's $scope
-    wiffle.controller('mainController', function($scope) {
+    wiffle.controller('mainController', function($scope, $log, env) {
         // create a message to display in our view
-
         $scope.message = 'Everyone come and see how good I look!';
     });
 
@@ -66,7 +78,104 @@
 
     });
 
-    wiffle.controller('registerFriendlyController', function($scope, $http, $location) {
+    wiffle.controller('donateController', function($scope, env) {
+
+        $scope.shirts = [{id: 'shirt1'}];
+
+        calculateTotals = function() {
+            $scope.transactionFee = ((25) * .029 + .3).toFixed(2);
+            var transactionFee = ((25) * .029 + .3);
+
+            $scope.finalTotal = (25 + transactionFee).toFixed(2);
+        };
+
+
+
+        calculateTotals();
+
+
+        var environment = (env === 'dev') ? 'sandbox' : 'production';
+
+         paypal.Button.render({
+
+                env: environment, // sandbox | production
+
+                // PayPal Client IDs - replace with your own
+                // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+                client: {
+                    sandbox:    'AYd_PiOoMb13TRjG8AQnQFvOLqZIT85fPVxAmLjlBai-N3l9ccju1NgjnMS-KerSm0eMy_YaEd6eK11d',
+                    production: 'AfpdbUhd5xPbu2JXznsV5D1vDccd28C77oeC4tgVPsapxkSxIYBSn3lmHcWXcMoqHvfWyPluAQZSTuH4'
+                },
+
+                // Show the buyer a 'Pay Now' button in the checkout flow
+                commit: true,
+
+                // payment() is called when the button is clicked
+                payment: function(data, actions) {
+
+                    // Make a call to the REST api to create the payment
+                    return actions.payment.create({
+                        transactions: [
+                            {
+                                amount: { total: '50', currency: 'USD' }
+                            }
+                        ]
+                    });
+                },
+
+                // onAuthorize() is called when the buyer approves the payment
+                onAuthorize: function(data, actions) {
+
+                    // Make a call to the REST api to execute the payment
+                    return actions.payment.execute().then(function() {
+                        window.alert('Payment Complete!');
+                    });
+                }
+
+                }, '#paypal-button-container');
+
+
+         paypal.Button.render({
+
+                env: environment, // sandbox | production
+
+                // PayPal Client IDs - replace with your own
+                // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+                client: {
+                    sandbox:    'AYd_PiOoMb13TRjG8AQnQFvOLqZIT85fPVxAmLjlBai-N3l9ccju1NgjnMS-KerSm0eMy_YaEd6eK11d',
+                    production: 'AfpdbUhd5xPbu2JXznsV5D1vDccd28C77oeC4tgVPsapxkSxIYBSn3lmHcWXcMoqHvfWyPluAQZSTuH4'
+                },
+
+                // Show the buyer a 'Pay Now' button in the checkout flow
+                commit: true,
+
+                // payment() is called when the button is clicked
+                payment: function(data, actions) {
+
+                    // Make a call to the REST api to create the payment
+                    return actions.payment.create({
+                        transactions: [
+                            {
+                                amount: { total: '50', currency: 'USD' }
+                            }
+                        ]
+                    });
+                },
+
+                // onAuthorize() is called when the buyer approves the payment
+                onAuthorize: function(data, actions) {
+
+                    // Make a call to the REST api to execute the payment
+                    return actions.payment.execute().then(function() {
+                        window.alert('Payment Complete!');
+                    });
+                }
+
+                }, '#paypal-button-container2');
+
+    });
+
+    wiffle.controller('registerFriendlyController', function($scope, $http, $location, $log, env) {
         var valid = true;
 
         $scope.isDisabled = false;
@@ -99,7 +208,7 @@
                 }
             }
 
-            if(valid == true) {
+            if(valid == true || env === 'dev') {
                 var teamOutput = {
                     "name": $scope.team_name,
                     "email": $scope.email,
@@ -111,7 +220,7 @@
                     "price": $scope.finalTotal
                 };
 
-                console.log("Outbound JSON: " + JSON.stringify(teamOutput, null, 2));
+                $log.debug("Outbound JSON: " + JSON.stringify(teamOutput, null, 2))
 
                 // $scope.isDisabled = true;
                 $http({
@@ -122,7 +231,7 @@
                     var hash = response.data.hash;
                     $location.path('/register/team/' + hash);
                   }, function errorCallback(response) {
-                    console.log(response);
+                    $log.debug(response)
                   });
             } else {
                 alert("One or more fields is blank. Please fill in all fields.");
@@ -150,29 +259,29 @@
         };
 
         $scope.submitTeam = function() {
-            console.log('hi 1');
+            $log.debug('hi 1')
 
             var query = '/team/color/' + $scope.color;
 
-            console.log(query);
+            $log.debug(query)
 
             $http({
               method: 'GET',
               url: query
             }).then(function successCallback(response) {
-                console.log('hi');
+                $log.debug('hi')
                 if(response.data == 'true') 
                     registerTeam();
                 else
                     alert("Color '" + $scope.color + "' is taken. Please select another color!");
             }, function errorCallback(response) {
-                console.log(response);
+                $log.debug(response)
             });
 
         };   
     });
 
-    wiffle.controller('registerCompetitiveController', function($scope, $http, $location) {
+    wiffle.controller('registerCompetitiveController', function($scope, $http, $location, $log) {
 
         var valid = true;
 
@@ -221,7 +330,7 @@
                     "price": $scope.finalTotal
                 };
 
-                console.log("Outbound JSON: " + JSON.stringify(teamOutput, null, 2));
+                $log.debug("Outbound JSON: " + JSON.stringify(teamOutput, null, 2))
 
                 // $scope.isDisabled = true;
                 $http({
@@ -232,7 +341,7 @@
                     var hash = response.data.hash;
                     $location.path('/register/team/' + hash);
                   }, function errorCallback(response) {
-                    console.log(response);
+                    $log.debug(response)
                   });
             } else {
                 alert("One or more fields is blank. Please fill in all fields.");
@@ -260,47 +369,50 @@
         };
 
         $scope.submitTeam = function() {
-            console.log('hi 1');
+            $log.debug('hi 1')
 
             var query = '/team/color/' + $scope.color;
 
-            console.log(query);
+            $log.debug(query)
 
             $http({
               method: 'GET',
               url: query
             }).then(function successCallback(response) {
-                console.log('hi');
+                $log.debug('hi')
                 if(response.data == 'true') 
                     registerTeam();
                 else
                     alert("Color '" + $scope.color + "' is taken. Please select another color!");
             }, function errorCallback(response) {
-                console.log(response);
+                $log.debug(response)
             });
 
         };      
     });
 
-    wiffle.controller('confirmationController', function($scope, $http, $routeParams) {
+    wiffle.controller('confirmationController', function($scope, $http, $routeParams,  $log, env) {
         // $scope.isDisabled = true;
         $scope.paid = false;
 
 
         var params = $routeParams.team_id;
         var query = '/register/team/' + params;
+        var environment = (env === 'dev') ? 'sandbox' : 'production';
+        $log.debug(environment);
 
-        console.log(query);
+        $log.debug(query)
         $http({
           method: 'GET',
           url: query
         }).then(function successCallback(response) {
-            console.log(response);
+            $log.debug(response)
 
             if(response.data.paid == false) {
                 paypal.Button.render({
 
-                env: 'production', // sandbox | production
+
+                env: environment, // sandbox | production
 
                 // PayPal Client IDs - replace with your own
                 // Create a PayPal app: https://developer.paypal.com/developer/applications/create
@@ -336,10 +448,10 @@
                           method: 'GET',
                           url: pay_query
                         }).then(function successCallback(response) {
-                            console.log(response);
+                            $log.debug(response)
                             
                         }, function errorCallback(response) {
-                            console.log(response);
+                            $log.debug(response)
                         });
                     });
                 }
@@ -353,7 +465,7 @@
             // this callback will be called asynchronously
             // when the response is available
           }, function errorCallback(response) {
-            console.log(response);
+            $log.debug(response)
             // called asynchronously if an error occurs
             // or server returns response with an error status.
         });
