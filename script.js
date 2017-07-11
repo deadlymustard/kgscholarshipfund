@@ -114,7 +114,7 @@
         calculateTotals();
 
 
-        var environment = (env === 'prod') ? 'production' : 'sandbox';
+        var environment = (env === 'production') ? 'production' : 'sandbox';
 
          paypal.Button.render({
 
@@ -439,7 +439,7 @@
 
         var params = $routeParams.team_id;
         var query = '/register/team/' + params;
-        var environment = (env === 'prod') ? 'production' : 'sandbox';
+        var environment = (env === 'production') ? 'production' : 'sandbox';
         $log.debug(environment);
 
         $log.debug(query)
