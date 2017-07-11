@@ -97,24 +97,14 @@ exports.register = function(req, res) {
       // Define mail option metadata
       var mailOptions = {
         from: 'ktgwiff@gmail.com', 
-        to: new_team.email,  
+        to: new_team.email + ', ktgwiff@gmail.com',  
         subject: 'Kevin Gilbert Wiffle Ball Tournament Registration Confirmation'
       };
 
       // Send confirmation e-mail to customer
       mailer.sendMailTemplate('/templates/email_confirmation.html', replacements, mailOptions , function(err) {
-        if (err) {
-          return logger.error("Error sending confirmation mail template:\n" + err);
-        } else {
-          // Send registration email to host
-          mailOptions.to = cfg.confirmationEmailTarget;
-          mailer.sendMailTemplate('/templates/email_registered.html', replacements, mailOptions, function(err) {
-            if (err) return logger.error("Error sending registered mail template:\n" + err);
-          });
-        }
+        if (err)  return logger.error("Error sending confirmation mail template:\n" + err);
       });
-
-      
 
       res.send(new_team);   
   });
