@@ -103,14 +103,18 @@ exports.register = function(req, res) {
 
       // Send confirmation e-mail to customer
       mailer.sendMailTemplate('/templates/email_confirmation.html', replacements, mailOptions , function(err) {
-        if (err) return logger.error("Error sending confirmation mail template:\n" + err);
+        if (err) {
+          return logger.error("Error sending confirmation mail template:\n" + err);
+        } else {
+          // Send registration email to host
+          mailOptions.to = cfg.confirmationEmailTarget;
+          mailer.sendMailTemplate('/templates/email_registered.html', replacements, mailOptions, function(err) {
+            if (err) return logger.error("Error sending registered mail template:\n" + err);
+          });
+        }
       });
 
-      // Send registration email to host
-      mailOptions.to = cfg.confirmationEmailTarget;
-      mailer.sendMailTemplate('/templates/email_registered.html', replacements, mailOptions, function(err) {
-        if (err) return logger.error("Error sending registered mail template:\n" + err);
-      });
+      
 
       res.send(new_team);   
   });
