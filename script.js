@@ -91,6 +91,7 @@
             var transactionFee = ((25 * numShirts) * .029 + .3);
 
             $scope.finalTotal = ($scope.shirtTotal + transactionFee).toFixed(2);
+
         };
 
         $scope.addNewShirt = function() {
@@ -226,10 +227,10 @@
         calculateTotals = function() {
             $scope.memberCount = $scope.members.length - 5;
             $scope.memberTotal = $scope.memberCount * 25;
-            $scope.transactionFee = ((100 + $scope.memberTotal) * .029 + .3).toFixed(2);
             var transactionFee = ((100 + $scope.memberTotal) * .029 + .3);
 
-            $scope.finalTotal = (100 + $scope.memberTotal + transactionFee).toFixed(2);
+            $scope.finalTotal = (100 + $scope.memberTotal).toFixed(2);
+            $scope.paypal_total = (100 + $scope.memberTotal + transactionFee).toFixed(2);
         };
 
         registerTeam = function() {
@@ -258,7 +259,7 @@
                     "members": [
                         $scope.members
                     ],
-                    "price": $scope.finalTotal
+                    "price": $scope.paypal_total
                 };
 
                 $log.debug("Outbound JSON: " + JSON.stringify(teamOutput, null, 2))
@@ -333,10 +334,10 @@
         calculateTotals = function() {
             $scope.memberCount = $scope.members.length - 4;
             $scope.memberTotal = $scope.memberCount * 25;
-            $scope.transactionFee = ((100 + $scope.memberTotal) * .029 + .3).toFixed(2);
             var transactionFee = ((100 + $scope.memberTotal) * .029 + .3);
 
-            $scope.finalTotal = (100 + $scope.memberTotal + transactionFee).toFixed(2);
+            $scope.finalTotal = (100 + $scope.memberTotal).toFixed(2);
+            $scope.paypal_total = (100 + $scope.memberTotal + transactionFee).toFixed(2);
         };
 
         registerTeam = function() {
@@ -368,7 +369,7 @@
                     "members": [
                         $scope.members
                     ],
-                    "price": $scope.finalTotal
+                    "price": $scope.paypal_total
                 };
 
                 $log.debug("Outbound JSON: " + JSON.stringify(teamOutput, null, 2))
@@ -433,8 +434,11 @@
     });
 
     wiffle.controller('confirmationController', function($scope, $http, $routeParams,  $log, env) {
+
         // $scope.isDisabled = true;
         $scope.paid = false;
+
+
 
 
         var params = $routeParams.team_id;
@@ -448,6 +452,25 @@
           url: query
         }).then(function successCallback(response) {
             $log.debug(response)
+
+            $log.debug(response.data.members[0].length);
+            var memberCount = response.data.members[0].length
+            var additionalMembers;
+
+            if(response.data.league == 'friendly') {
+                additionalMembers =  memberCount - 5;
+            } else {
+                additionalMembers = memberCount - 4;
+            }
+
+            $scope.memberCount = additionalMembers;
+            $scope.memberTotal = $scope.memberCount * 25;
+            $scope.transactionFee = ((100 + $scope.memberTotal) * .029 + .3).toFixed(2);
+            var transactionFee = ((100 + $scope.memberTotal) * .029 + .3);
+            $scope.finalTotal = (100 + $scope.memberTotal + transactionFee).toFixed(2);
+            $scope.checkTotal = (100 + $scope.memberTotal);
+
+            $log.debug("additionalMembers: " + additionalMembers);
 
             if(response.data.paid == false) {
                 paypal.Button.render({
