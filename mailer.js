@@ -36,7 +36,8 @@ exports.sendMailTemplate = function(path, replacements, mailOptions, callback) {
         mailOptions.html = htmlToSend;
         transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-        	logger.error('Error sending mail + ' error);
+            logger.info(error);
+            return error;
         }
         logger.info('Message %s sent: %s', info.messageId, info.response);
         });
