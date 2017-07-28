@@ -36,7 +36,7 @@ exports.sendMailTemplate = function(path, replacements, mailOptions, callback) {
         mailOptions.html = htmlToSend;
         transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-        	return winston.log('error', 'Error sending e-mail');
+        	logger.error('Error sending mail + ' error);
         }
         logger.info('Message %s sent: %s', info.messageId, info.response);
         });
