@@ -44,7 +44,7 @@
 							</div>
 							<div class="border-left col-md-6 col-xs-6">
 								<p>Send a check written out to 'Kevin Gilbert Scholarship Fund' to:</p>
-								<p>Claire Siegrist<br>231 Jersey St., Harrison, NJ 07029</p>
+								<p>Karen Gilbert<br>22 Militia Road, Whitehouse Station, NJ 08889</p>
 							</div>
 
 							
@@ -53,116 +53,7 @@
 				</form>
 
 				<br>
-				<br>
-
-				<div class="row">					
-					<div class="col-md-12">
-						<p>
-						Also, consider purchasing an event t-shirt for $25:
-						</p>
-						<img class="img-rounded" src="img/shirt.jpg" width=350 height=350/>
-					</div>
-				</div>
-
-				<br>
-				<div class="row">
-					<div class="col-md-6 col-xs-6">
-						<small class="form-text text-muted">E-mail</small>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 col-xs-6">
-						<input ng-model="email" type="text" name="email" class="form-control" id="member1" placeholder="e.g. john@gmail.com">
-						<br />
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 col-xs-6">
-						<small class="form-text text-muted">Name</small>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 col-xs-6">
-						<input ng-model="name" type="text" name="name" class="form-control" id="member1" placeholder="e.g. John/Jane Smith">
-						<br />
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 col-xs-6">
-						<small class="form-text text-muted">Shirt Size</small>
-					</div>
-				</div>
-
-				<div ng-repeat="shirt in shirts" class="entry">
-					<div class="row">
-
-						<div class="col-md-6 col-xs-6">
-							<select ng-model="shirt.shirt_size" class="form-control" id="sel1" >
-								<option>S</option>
-								<option>M</option>
-								<option>L</option>
-								<option>XL</option>
-								<option>XXL</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-3 col-xs-3">
-						<button ng-click="addNewShirt()" class="btn btn-success btn-add" type="button">
-						<span class="glyphicon glyphicon-plus"></span>
-						</button>
-						<button ng-click="removeShirt()" class="btn btn-danger btn-minus" type="button">
-						<span class="glyphicon glyphicon-minus"></span>
-						</button>
-					</div>
-					<div class="col-md-3 col-xs-3">
-						
-					</div>
-				</div>
-				<div class="totals">
-					<div class="row">
-						<div class="col-md-3 col-xs-7">
-							<span>Shirt Price ($25 ea.) x {{ numShirts }}</span><br>
-							<span>Transaction Fee</span>
-						</div>
-						<div class="col-md-3 col-xs-5">
-							<span>${{ shirtTotal }}</span><br>
-							<span>${{ transactionFee }}</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6 col-xs-12">
-							<hr>
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-md-3 col-xs-7">
-							<span>Total</span><br>
-						</div>
-						<div class="col-md-3 col-xs-5">
-							<span id="total">${{ finalTotal }}</span><br>
-						</div>
-					</div>
-				</div>
-				<div class="paypal">
-					<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-					<div id="paypal-button-container2"></div>
-					<div id="confirm" class="hidden">
-						<div>Ship to:</div>
-						<div><span id="recipient"></span>, <span id="line1"></span>, <span id="city"></span></div>
-						<div><span id="state"></span>, <span id="zip"></span>, <span id="country"></span></div>
-						<button id="confirmButton">Donate!</button>
-					</div>
-					<div id="thanks" class="hidden">
-						Thanks, <span id="thanksname"></span>!
-					</div>
-				</div>					
+				<br>				
 			</div>
 		</div>
 	</div>
