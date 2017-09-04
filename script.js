@@ -156,65 +156,6 @@
                 }, '#paypal-button-container');
 
 
-         paypal.Button.render({
-
-                env: environment, // sandbox | production
-
-                // PayPal Client IDs - replace with your own
-                // Create a PayPal app: https://developer.paypal.com/developer/applications/create
-                client: {
-                    sandbox:    'AYd_PiOoMb13TRjG8AQnQFvOLqZIT85fPVxAmLjlBai-N3l9ccju1NgjnMS-KerSm0eMy_YaEd6eK11d',
-                    production: 'AfpdbUhd5xPbu2JXznsV5D1vDccd28C77oeC4tgVPsapxkSxIYBSn3lmHcWXcMoqHvfWyPluAQZSTuH4'
-                },
-
-                // Show the buyer a 'Pay Now' button in the checkout flow
-                commit: true,
-
-                // payment() is called when the button is clicked
-                payment: function(data, actions) {
-
-                    // Make a call to the REST api to create the payment
-                    return actions.payment.create({
-                        transactions: [
-                            {
-                                amount: { total: $scope.finalTotal, currency: 'USD' }
-                            }
-                        ]
-                    });
-
-
-                },
-
-                // onAuthorize() is called when the buyer approves the payment
-                onAuthorize: function(data, actions) {
-
-                    // Make a call to the REST api to execute the payment
-                    return actions.payment.execute().then(function() {
-
-                        var orderOutput = {
-                            "name": $scope.name,
-                            "email": $scope.email,
-                            "shirts": [
-                                $scope.shirts
-                            ],
-                        };
-
-                        $log.debug("Outbound JSON: " + JSON.stringify(orderOutput, null, 2))
-
-                        $http({
-                          method: 'POST',
-                          data: orderOutput,
-                          url: '/order'
-                        }).then(function successCallback(response) {
-                            alert("Order successful. An e-mail has been sent to you confirming your purchase.");
-                          }, function errorCallback(response) {
-                            $log.debug(response)
-                          });
-                    });
-                }
-
-                }, '#paypal-button-container2');
-
     });
 
     wiffle.controller('registerFriendlyController', function($scope, $http, $location, $log, env) {
