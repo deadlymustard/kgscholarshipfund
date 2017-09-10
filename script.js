@@ -34,8 +34,12 @@
             })
 
             .when('/register_friendly', {
-                templateUrl : 'pages/register_friendly.html',
+                templateUrl : 'pages/register.html',
                 controller  : 'registerFriendlyController'
+            })
+
+            .when('/register', {
+                templateUrl: 'pages/register.html'
             })
 
             .when('/contact', {
@@ -49,7 +53,7 @@
             })
 
             .when('/register_competitive', {
-                templateUrl : 'pages/register_competitive.html',
+                templateUrl : 'pages/register.html',
                 controller  : 'registerCompetitiveController'
             })
             .when('/register/team/:team_id',  {
